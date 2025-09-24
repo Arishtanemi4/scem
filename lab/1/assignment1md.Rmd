@@ -1,0 +1,26 @@
+---
+title: "Assignment1"
+author: "Kaustubh Sonawane"
+date: "24 September 2025"
+output: html_document
+---
+
+```{r}
+# animals vector
+animals = c(
+  "Snake", "Ostrich", "Cat", "Spider"
+)
+
+# num_legs vector
+num_legs = c(
+  0, 2, 4, 8
+)
+
+# animals data frame
+animals_df = data.frame(
+  animals, num_legs
+)
+
+# print data frame
+animals_df
+```
