@@ -55,7 +55,7 @@ X %>% rename(
 
 
 # Q6
-X <- large_delays_JFK %>%
+large_delays_JFK %>%
   inner_join(airline_lookup, by = "carrier") %>%
   select(-carrier) %>% print(n=5)
 
@@ -72,10 +72,21 @@ X %>%
   print(n=10)
 
 # Q8
-X_grouped <- X %>% group_by(airline_name) %>%
+X_grouped <- X %>%
+  group_by(airline_name) %>%
   summarise(
-    n_flights = count(airline_name),
-    avg_dep_delay = mean(dep_delay),
-    med_arr_delay = meadian(arr_delay),
-    max_delay_ratio = max(delay_ratio)
+    n_flights = n(),
+    avg_dep_delay = mean(dep_delay, na.rm = TRUE),
+    med_arr_delay = median(arr_delay, na.rm = TRUE),
+    max_delay_ratio = max(delay_ratio, na.rm = TRUE)
+  ) %>% print()
+
+
+# Q9
+X_null_cnts <- X %>%
+  group_by(airline_name) %>%
+  summarise(
+    nulls_arr_delay = sum(is.na(arr_delay)),
+    nulls_dep_delay = sum(is.na(dep_delay)),
+    nulls_delay_ratio = sum(is.na(delay_ratio))
   ) %>% print()
