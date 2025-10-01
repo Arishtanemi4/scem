@@ -70,3 +70,12 @@ X %>%
     ) %>%
   arrange(desc(delay_ratio)) %>%
   print(n=10)
+
+# Q8
+X_grouped <- X %>% group_by(airline_name) %>%
+  summarise(
+    n_flights = count(airline_name),
+    avg_dep_delay = mean(dep_delay),
+    med_arr_delay = meadian(arr_delay),
+    max_delay_ratio = max(delay_ratio)
+  ) %>% print()
