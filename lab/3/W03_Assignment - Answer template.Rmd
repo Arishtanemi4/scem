@@ -2,7 +2,7 @@
 title: "Assignment 03 - Solutions"
 subtitle: "Statistical Computing and Empirical Methods"
 author: "YOUR_NAME (YOUR_STUDENT_ID)"
-output: pdf_document
+output: html_document
 editor_options: 
   markdown: 
     wrap: 72
@@ -51,20 +51,25 @@ knitr::opts_chunk$set(echo = TRUE) # <---- Don't change this
 ## Question 1.a
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-# ...
-# ...
-# x.mean <- ...
-# x.var  <- ...
+
+xunif <- runif(n=12, min=50, max=80)
+
+xunif.mean <- mean(xunif)
+xunif.var  <- var(xunif)
+
+print(xunif.mean)
+print(xunif.var)
 ```
 
 ```{r Q1b}
 ## Question 1.b
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+rbern <- rbinom(n=200, size = 1, prob = 0.25)
+print(rbern)
 
+rbern.p <- mean(rbern)
+print(rbern.p)
 ```
 
 ------------------------------------------------------------------------
@@ -75,8 +80,8 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 2.a
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+xbar.vector <- replicate(1000, mean(rnorm(5, mean = 4, sd = 2)))
+hist(xbar.vector)
 
 ```
 
@@ -84,8 +89,14 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 2.b
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+xbar.mean <- mean(xbar.vector)
+xbar.sd <- sd(xbar.vector)
+
+print(xbar.mean)
+print(xbar.sd)
+
+# Standard Error
+print(2/sqrt(5))
 
 ```
 
@@ -97,8 +108,12 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 3
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+actual <- replicate(2000, rnorm(20, mean = 0, sd = 1))
+
+xvar.vector <- replicate(2000, var(rnorm(20, mean = 0, sd = 1)))
+
+bias <- mean(actual - xvar.vector)
+bias
 
 ```
 
@@ -153,8 +168,7 @@ fit$par
 ## Question 4.a
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+
 
 ```
 
