@@ -1,0 +1,420 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Assignment 03 - Solutions},
+            pdfauthor={YOUR\_NAME (YOUR\_STUDENT\_ID)},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Assignment 03 - Solutions}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \subtitle{Statistical Computing and Empirical Methods}
+  \author{YOUR\_NAME (YOUR\_STUDENT\_ID)}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\hypertarget{a-word-of-advice}{%
+\subsection{A word of advice}\label{a-word-of-advice}}
+
+Think of the SCEM labs as going to the gym: if you pay a gym membership,
+but instead of working out you use a machine to lift the weights for
+you, you won't get the benefits.
+
+ChatGPT, DeepSeek, Claude and other GenAI tools can provide answers to
+most of the questions below. Before you try that, please consider the
+following: answering the specific questions below is not the point of
+this assignment. Instead, the questions are designed to give you the
+chance to develop a better understanding of estimation concepts and a
+certain level of \emph{\textbf{statistical thinking}}. These are
+essential skills for any data scientist, even if they end up using
+generative AI - to write an effective prompt and to catch the common
+(often subtle) errors that AI produces when trying to solve anything
+non-trivial.
+
+A very important part of this learning involves not having the answers
+ready-made for you, but instead taking the time to actually search for
+the answer, trying something, getting it wrong, and trying again.
+
+So, make the best use of this session. The assignments are not marked,
+so it is much better to try the yourself even if you get incorrect
+answers (you'll be able to correct yourself later when you receive
+feedback) than to submit a perfect, but GPT'd solution.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{important-notes}{%
+\subsection{IMPORTANT NOTES:}\label{important-notes}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{DO NOT} change the code block names. Enter your solutions to
+  each question into the predefined code blocks.
+\item
+  \textbf{DO NOT} add calls to \texttt{install.packages()} into your
+  solutions. Some questions may require you to load packages using
+  \texttt{library()}. Please do not use any other packages except the
+  ones explicitly listed in the ``setup'' code block below.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{setup}{%
+\subsection{Setup}\label{setup}}
+
+This code block below sets up your session. The only think you should
+change in it is to replace \texttt{ABCDEF} by your student ID number,
+which will be used as the seed for your random number generators.
+
+\hypertarget{part-i-point-estimation-of-parameters}{%
+\subsection{Part I: Point estimation of
+parameters}\label{part-i-point-estimation-of-parameters}}
+
+\hypertarget{q1.-simulating-data-and-estimating-the-mean}{%
+\subsubsection{Q1. Simulating data and estimating the
+mean}\label{q1.-simulating-data-and-estimating-the-mean}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 1.a}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\CommentTok{\# ...}
+\CommentTok{\# ...}
+\CommentTok{\# x.mean \textless{}{-} ...}
+\CommentTok{\# x.var  \textless{}{-} ...}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 1.b}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q2.-sampling-distribution-of-the-mean}{%
+\subsubsection{Q2. Sampling distribution of the
+mean}\label{q2.-sampling-distribution-of-the-mean}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 2.a}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 2.b}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{q3.-bias-of-an-estimator}{%
+\subsubsection{Q3. Bias of an
+estimator}\label{q3.-bias-of-an-estimator}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 3}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{discussion-maximum-likelihood-estimation-mle}{%
+\subsubsection{Discussion: Maximum Likelihood Estimation
+(MLE)}\label{discussion-maximum-likelihood-estimation-mle}}
+
+Example of using the R function \texttt{optim()} to estimate the MLE
+values for the mean and variance of a normal distribution. \emph{You
+don't need to change anything in the code block below.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# This is just an example}
+
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{n    }\OtherTok{\textless{}{-}} \DecValTok{100000} \CommentTok{\# sample size}
+\NormalTok{mu   }\OtherTok{\textless{}{-}} \DecValTok{12}     \CommentTok{\# true mean}
+\NormalTok{var  }\OtherTok{\textless{}{-}} \DecValTok{9}      \CommentTok{\# true variance}
+
+
+\CommentTok{\# Generate sample}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(n, }\AttributeTok{mean =}\NormalTok{ mu, }\AttributeTok{sd =} \FunctionTok{sqrt}\NormalTok{(var))}
+
+\CommentTok{\# log{-}likelihood for Normal(mu, sigma\^{}2), given a sample X}
+\CommentTok{\# (Check lecture slides for the formula)}
+\NormalTok{llik }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(par, X) \{}
+\NormalTok{  mu     }\OtherTok{\textless{}{-}}\NormalTok{ par[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  sigma2 }\OtherTok{\textless{}{-}}\NormalTok{ par[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  n      }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(X)}
+  \ControlFlowTok{if}\NormalTok{ (sigma2 }\SpecialCharTok{\textless{}=} \DecValTok{0}\NormalTok{) }\FunctionTok{return}\NormalTok{(}\ConstantTok{Inf}\NormalTok{)  }\CommentTok{\# variance must be positive}
+\NormalTok{  llik }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\NormalTok{n }\SpecialCharTok{*} \FunctionTok{log}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ pi }\SpecialCharTok{*}\NormalTok{ sigma2)) }\SpecialCharTok{{-}} \FloatTok{0.5} \SpecialCharTok{*} \FunctionTok{sum}\NormalTok{((X }\SpecialCharTok{{-}}\NormalTok{ mu)}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{/}\NormalTok{ sigma2)}
+  \FunctionTok{return}\NormalTok{(llik)}
+\NormalTok{\}}
+
+\CommentTok{\# Initial guesses for mu and sigma\^{}2 }
+\CommentTok{\# (any finite Real values of mu and of sigma2 \textgreater{} 0 should work)}
+\NormalTok{init }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{mu =} \DecValTok{0}\NormalTok{, }\AttributeTok{sigma2 =} \DecValTok{1}\NormalTok{) }
+
+\CommentTok{\# Run optimization}
+\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{optim}\NormalTok{(}\AttributeTok{par =}\NormalTok{ init, }\AttributeTok{fn =}\NormalTok{ llik, }\AttributeTok{X =}\NormalTok{ x, }
+             \AttributeTok{method =} \StringTok{"L{-}BFGS{-}B"}\NormalTok{,         }\CommentTok{\# optimisation method to use}
+             \AttributeTok{lower =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\FloatTok{1e{-}9}\NormalTok{),       }\CommentTok{\# Enforce positive variance (minimal allowed value: 10\^{}{-}9)}
+             \AttributeTok{control =} \FunctionTok{list}\NormalTok{(}\AttributeTok{fnscale =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{) }\CommentTok{\# To make it a maximisation problem}
+\NormalTok{             )}
+
+\NormalTok{fit}\SpecialCharTok{$}\NormalTok{par}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        mu    sigma2 
+## 11.993268  9.063433
+\end{verbatim}
+
+\hypertarget{q4-numerical-computation-of-mle-value}{%
+\subsubsection{Q4: Numerical computation of MLE
+value}\label{q4-numerical-computation-of-mle-value}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 4.a}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 4.b}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{part-ii-data-visualisation}{%
+\subsection{Part II: Data
+visualisation}\label{part-ii-data-visualisation}}
+
+\hypertarget{q5-basic-plotting}{%
+\subsubsection{Q5: Basic plotting}\label{q5-basic-plotting}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 5.a}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 5.b}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 5.c}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 5.d}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{q6-facetting-and-annotation}{%
+\subsubsection{Q6: Facetting and
+annotation}\label{q6-facetting-and-annotation}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 6.a}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 6.b}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Question 6.c}
+\FunctionTok{set.seed}\NormalTok{(MY\_STUDENT\_ID) }\CommentTok{\# \textless{}{-}{-}{-} Don\textquotesingle{}t change this}
+
+\CommentTok{\# Your code here}
+\DocumentationTok{\#\#}
+\end{Highlighting}
+\end{Shaded}
+
+
+
+\end{document}

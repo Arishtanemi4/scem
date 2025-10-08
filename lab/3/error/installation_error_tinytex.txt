@@ -1,0 +1,82 @@
+> tinytex::install_tinytex()
+trying URL 'http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip'
+trying URL 'http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip'
+Content type 'application/zip' length 36100386 bytes (34.4 MB)
+downloaded 34.4 MB
+
+trying URL 'https://yihui.name/gh/tinytex/tools/pkgs-custom.txt'
+Content type 'text/plain; charset=UTF-8' length 934 bytes
+downloaded 934 bytes
+
+trying URL 'https://yihui.name/gh/tinytex/tools/tinytex.profile'
+Content type 'application/octet-stream' length 183 bytes
+downloaded 183 bytes
+
+Starting to install TinyTeX to C:\Users\ksstu\AppData\Roaming/TinyTeX. It will take a few minutes.
+Automated TeX Live installation using profile: ../tinytex.profile
+Loading https://mirror.ctan.org/systems/texlive/tlnet/tlpkg/texlive.tlpdb
+Installing TeX Live 2025 from: https://mirror.ctan.org/systems/texlive/tlnet (not verified)
+Platform: windows => 'Windows (64-bit)'
+Distribution: net  (downloading)
+Using URL: https://mirror.ctan.org/systems/texlive/tlnet
+Directory for temporary files: C:\Users\ksstu\AppData\Local\Temp\Mf9bTRcKDS
+Installing to: ./TinyTeX/
+Installing [1/6, time/total: ??:??/??:??]: hyphen-base [23k]
+Installing [2/6, time/total: 00:01/09:28]: kpathsea [33k]
+Installing [3/6, time/total: 00:02/07:41]: luatex [10k]
+Installing [4/6, time/total: 00:03/09:48]: texlive-scripts [113k]
+Installing [5/6, time/total: 00:04/04:45]: texlive.infra [406k]
+Installing [6/6, time/total: 00:06/02:09]: tlperl.windows [11991k]
+Time used for installing the packages: 00:26
+Installing [01/12, time/total: ??:??/??:??]: cm [233k]
+Installing [02/12, time/total: ??:??/??:??]: etex [12k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for https://mirror.ctan.org/systems/texlive/tlnet/archive/cm.tar.xz
+TLUtils::install_packages: Failed to install cm
+                           cm will be retried later.
+Installing [03/12, time/total: 01:31/33:22:28]: hyph-utf8 [16k]
+Installing [04/12, time/total: 03:02/66:44:57]: knuth-lib [30k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for https://mirror.ctan.org/systems/texlive/tlnet/archive/hyph-utf8.tar.xz
+TLUtils::install_packages: Failed to install hyph-utf8
+                           hyph-utf8 will be retried later.
+Installing [05/12, time/total: 03:03/18:27:24]: kpathsea.windows [507k]
+Installing [06/12, time/total: 04:33/27:32:02]: luatex.windows [2062k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for https://mirror.ctan.org/systems/texlive/tlnet/archive/kpathsea.windows.tar.xz
+TLUtils::install_packages: Failed to install kpathsea.windows
+                           kpathsea.windows will be retried later.
+Installing [07/12, time/total: 04:37/32:45]: plain [29k]
+Installing [08/12, time/total: 04:38/32:26]: tex-ini-files [5k]
+Installing [09/12, time/total: 04:40/32:36]: texlive-scripts.windows [60k]
+Installing [10/12, time/total: 04:41/31:50]: texlive.infra.windows [3014k]
+Installing [11/12, time/total: 04:45/13:36]: tlgs.windows [8649k]
+Installing [12/12, time/total: 06:16/17:57]: unicode-data [310k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for https://mirror.ctan.org/systems/texlive/tlnet/archive/tlgs.windows.tar.xz
+TLUtils::install_packages: Failed to install tlgs.windows
+                           tlgs.windows will be retried later.
+Retrying to install: cm [233k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for https://mirror.ctan.org/systems/texlive/tlnet/archive/unicode-data.tar.xz
+TLUtils::install_packages: Failed to install unicode-data
+                           unicode-data will be retried later.
+Retrying to install: hyph-utf8 [16k]
+Retrying to install: kpathsea.windows [507k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for https://mirror.ctan.org/systems/texlive/tlnet/archive/hyph-utf8.tar.xz
+Failed to install hyph-utf8, but continuing anyway!
+Retrying to install: tlgs.windows [8649k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for https://mirror.ctan.org/systems/texlive/tlnet/archive/kpathsea.windows.tar.xz
+Failed to install kpathsea.windows, but continuing anyway!
+Retrying to install: unicode-data [310k]
+Time used for installing the packages: 12:40
+TLPDB::_install_data: downloading did not succeed (download_file failed) for https://mirror.ctan.org/systems/texlive/tlnet/archive/unicode-data.tar.xz
+Failed to install unicode-data, but continuing anyway!
+'kpsewhich' is not recognized as an internal or external command,
+operable program or batch file.
+[11:19:04] running mktexlsr ./TinyTeX/texmf-dist ...
+Can't spawn "mktexlsr": No error at C:/Users/ksstu/AppData/Local/Temp/RtmpMHagwk/install-tl-20251008/tlpkg/TeXLive/TLUtils.pm line 747.
+C:\Users\ksstu\AppData\Local\Temp\RtmpMHagwk\install-tl-20251008\install-tl:  command failed (status 255): mktexlsr ./TinyTeX/texmf-dist: 
+TinyTeX installed to C:\Users\ksstu\AppData\Roaming/TinyTeX
+Please quit and reopen your R session and IDE (if you are using one, such as RStudio or Emacs) and check if tinytex:::is_tinytex() is TRUE.
+Warning messages:
+1: In download.file(url, output, ..., method = method) :
+  InternetOpenUrl failed: 'A connection with the server could not be established'
+2: In file.remove("TinyTeX/install-tl.log") :
+  cannot remove file 'TinyTeX/install-tl.log', reason 'No such file or directory'
+> 

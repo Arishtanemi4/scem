@@ -31,7 +31,7 @@ This code block below sets up your session. The only think you should change in 
 
 ```{r setup, echo=FALSE}
 ## We will use your student ID as the seed for the random number generator.
-MY_STUDENT_ID <- ABCDEF # <-- Replace ABCDEF by your student ID number  
+MY_STUDENT_ID <- 2701553 # <-- Replace ABCDEF by your student ID number  
   
 
 ## These are the packages you can use (if needed) for the present assignment.
