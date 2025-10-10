@@ -38,7 +38,7 @@ MY_STUDENT_ID <- 2701553 # <-- Replace ABCDEF by your student ID number
 ## If needed, you can run install.packages(tidyverse) in your machine, but 
 ## **do not** include any calls to install.packages() as part of your solution.
   
-permitted.packages <- c("ggplot2", "dplyr", "tidyverse", "nycflights13") # <--- Don't change this
+permitted.packages = c("ggplot2", "dplyr", "tidyverse", "nycflights13") # <--- Don't change this
 
 knitr::opts_chunk$set(echo = TRUE) # <---- Don't change this
 ```
@@ -52,24 +52,26 @@ knitr::opts_chunk$set(echo = TRUE) # <---- Don't change this
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
 
-xunif <- runif(n=12, min=50, max=80)
+# Random uniform distribution
+xunif = runif(n=12, min=50, max=80)
 
-xunif.mean <- mean(xunif)
-xunif.var  <- var(xunif)
+xunif.mean = mean(xunif)  # mean
+xunif.var  = var(xunif)  # variance
 
-print(xunif.mean)
-print(xunif.var)
+print(xunif.mean)  # printing mean
+print(xunif.var)  # printing variance
 ```
 
 ```{r Q1b}
 ## Question 1.b
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-rbern <- rbinom(n=200, size = 1, prob = 0.25)
+# 200 times generating either 0 or 1 where chance of 1 is 25%
+rbern = rbinom(n=200, size = 1, prob = 0.25)
 print(rbern)
 
-rbern.p <- mean(rbern)
-print(rbern.p)
+rbern.p = mean(rbern)  # the mean of the 200 samples
+print(rbern.p)  # is 0.255, close to p 0.25 
 ```
 
 ------------------------------------------------------------------------
@@ -80,7 +82,8 @@ print(rbern.p)
 ## Question 2.a
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-xbar.vector <- replicate(1000, mean(rnorm(5, mean = 4, sd = 2)))
+# Creating a normal distibution 1000 times and storing its mean every time
+xbar.vector = replicate(1000, mean(rnorm(5, mean = 4, sd = 2)))
 hist(xbar.vector)
 
 ```
@@ -89,8 +92,8 @@ hist(xbar.vector)
 ## Question 2.b
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-xbar.mean <- mean(xbar.vector)
-xbar.sd <- sd(xbar.vector)
+xbar.mean = mean(xbar.vector)  # mean of the means of 1000 normal distributions
+xbar.sd = sd(xbar.vector)  # standard deviation of mean of 1000 normal distributions
 
 print(xbar.mean)
 print(xbar.sd)
@@ -104,18 +107,49 @@ print(2/sqrt(5))
 
 ### Q3. Bias of an estimator
 
+$$
+\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(X_i - \bar{X})^2
+$$
+$$
+\text{Bias}(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta
+$$
+
+
 ```{r Q3}
 ## Question 3
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-actual <- replicate(2000, rnorm(20, mean = 0, sd = 1))
+# Defining the variables as in the question
+n_samples = 2000
+n = 20
+mu = 0
+sigma = 1
 
-xvar.vector <- replicate(2000, var(rnorm(20, mean = 0, sd = 1)))
 
-bias <- mean(actual - xvar.vector)
-bias
+xvar.vector = numeric(n_samples)
+
+for (i in 1:n_samples) {  # Summation (Xi - X)^2 2000 times
+  x = rnorm(n, mu, sigma)  # Creating normal distribution
+  xbar = mean(x)
+  xvar.vector[i] = sum((x - xbar)^2) / n  # Applying the MLE formula
+}
+
+
+# Another way to do the above loop using replicate
+# xvar.vector = replicate(n_samples, {
+#   x = rnorm(n, mu, sigma)
+#   sum((x - mean(x))^2) / n
+# })
+
+
+# Calculating Bias
+
+xvar.bias = mean(xvar.vector) - sigma^2
+xvar.bias
 
 ```
+
+The estimator is slightly negatively biased.
 
 ------------------------------------------------------------------------
 
@@ -176,8 +210,7 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 4.b
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+
 
 ```
 
@@ -191,8 +224,18 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 5.a
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+library(dplyr)
+library(ggplot2)
+library(nycflights13)
+
+head(flights)
+
+delayed_flights_2h <- flights %>%
+  filter(dep_delay > 0, dep_delay < 120) %>%
+  sample_frac(0.1)
+
+ggplot(data = delayed_flights_2h, aes(x = dep_delay)) + geom_histogram()
+
 
 ```
 
@@ -200,8 +243,7 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 5.b
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+ggplot(data = delayed_flights_2h, aes(x = dep_delay)) + geom_density()
 
 ```
 
@@ -210,8 +252,7 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 5.c
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+ggplot(data = delayed_flights_2h, aes(x = dep_delay, y = origin)) + geom_violin()
 
 ```
 
@@ -220,8 +261,7 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 5.d
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+ggplot(data = delayed_flights_2h, aes(x = dep_delay, y = arr_delay)) + geom_point()
 
 ```
 
@@ -233,17 +273,33 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 6.a
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+ggplot(data = delayed_flights_2h, aes(x = dep_delay, y = arr_delay)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ origin)
 
 ```
+
+Based on the plot, The arrival delay and departure delay are directly correlated. i.e. if the flight is late for arrival, then it is late for departure and vise versa.
+
 
 ```{r Q6b}
 ## Question 6.b
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+corr_delayed = delayed_flights_2h %>%
+  group_by(origin) %>%
+  summarise(
+    cor = cor(
+      x = dep_delay,
+      y = arr_delay,
+      method = "spearman",
+      use = "pairwise.complete.obs"
+    )
+  )
+
+# corr_delayed = cor(x = delayed_flights_2h$dep_delay, y = delayed_flights_2h$arr_delay, method = "spearman", use = "pairwise.complete.obs")
+corr_delayed
 
 ```
 
@@ -252,7 +308,9 @@ set.seed(MY_STUDENT_ID) # <--- Don't change this
 ## Question 6.c
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
-# Your code here
-##
+ggplot(data = delayed_flights_2h, aes(x = dep_delay, y = arr_delay)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ origin)
 
 ```
