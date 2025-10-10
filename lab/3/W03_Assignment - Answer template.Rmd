@@ -202,13 +202,42 @@ fit$par
 ## Question 4.a
 set.seed(MY_STUDENT_ID) # <--- Don't change this
 
+set.seed(1)
+n    <- 100000 # sample size
+# mu   <- 12     # true mean
+# var  <- 9      # true variance
+theta = 5
 
+# Generate sample
+x <- rcauchy(theta)
 
+llik = function(par, x){
+  theta = par[1]
+  n = length(n)
+  llik = -n * log(pi) - sum(log(1 + (x - theta)^2))  # Doubt here? I dont think I am summing it 10000 times. Maybe a loop was needed?
+  return(llik)
+}
+
+# Initial guess of theta 1
+init = c(theta = 1)
+
+fit = optim(
+  par = init, fn = llik, x = x,
+  method = 'L-BFGS-B'
+)
+
+fit$par
 ```
 
 ```{r Q4b}
 ## Question 4.b
 set.seed(MY_STUDENT_ID) # <--- Don't change this
+
+n_samples = 2000
+n = 50
+theta = 8
+
+xcauchy.vector = numeric(n_samples)
 
 
 
