@@ -31,7 +31,7 @@ This code block below sets up your session. The only think you should change in 
 
 ```{r ID, echo=FALSE, message=FALSE, warning=FALSE}
 ## We will use your student ID as the seed for the random number generator.
-MY_STUDENT_ID <- 1234567 # <-- Replace "ABCDEFG" by your student ID number (as an integer, i.e., without quotes).
+MY_STUDENT_ID <- 2701553 # <-- Replace "ABCDEFG" by your student ID number (as an integer, i.e., without quotes).
 ```
 
 ```{r Setup, echo=FALSE, message=FALSE, warning=FALSE}
@@ -69,10 +69,28 @@ if(!is.numeric(MY_STUDENT_ID)){
 
 ```{r Q1a}
 ## Question 1.a
+# Create a function called impute_by_median which imputes missing values based on the 
+# median of the sample, rather than the mean. Test your function on the sample vector 
+# provided in the solutions file. 
 xtest <- c(1, 2, 3, 4, NA, 6, NA, 8, 9, 10)
 
 # impute_by_median <- function...
 
+impute_by_median = function(x){
+  impute_med = median(x, na.rm = TRUE)  # computing median
+
+  impute_f = function(z) {  # imputation on single element
+    if (is.na(z)){
+      return(impute_med)
+    } else {
+      return(z)
+    }
+  }
+  return(map_dbl(x, impute_f))  # imputing across whole vector
+}
+
+xmed = impute_by_median(xtest)
+xmed
 ```
 
 :::{#prompt .message style="color: blue;"}
@@ -82,7 +100,19 @@ xtest <- c(1, 2, 3, 4, NA, 6, NA, 8, 9, 10)
 ```{r Q1b}
 ## Question 1.b
 
-# df_xy <- ...
+# Next, generate a data frame with two variables, x and y. Define variable x as a sequence 
+# of 𝑛 values with 𝑥1 = 0, 𝑥𝑛 = 10, and 𝑥𝑖+1 = 𝑥𝑖 + 0.1, for 𝑖 = 1,...,𝑛 − 1. Variable y should 
+# be set such that 𝑦𝑖 = 5𝑥𝑖 + 1. Define your data frame with those two columns and store it 
+# as variable df_xy. 
+
+x = seq(0, 10, 0.1)
+
+for(i in 1:length(x)){
+  y[i] = 5*x[i] + 1
+}
+
+df_xy = data.frame(x, y)
+df_xy
 ```
 
 :::{#prompt .message style="color: blue;"}
@@ -122,7 +152,13 @@ map2_dbl(grades, weights, ~ sum(.x * .y))
 ```{r Q1c}
 ## Question 1.c
 
-## sometimes_missing <- function...
+# You will use map2_dbl() to generate a new data frame with missing data. First, create a 
+# function called sometimes_missing with two input arguments: index and value. The 
+# function should return NA if index is divisible by 5, and return value otherwise. For 
+# instance, the function should return the following outputs: 
+
+sometimes_missing = function(index, value)
+
 
 ## df_xy_missing <- ...
 ```
