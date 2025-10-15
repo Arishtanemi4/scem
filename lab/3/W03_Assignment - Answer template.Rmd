@@ -239,7 +239,13 @@ theta = 8
 
 xcauchy.vector = numeric(n_samples)
 
+for (i in 1:n_samples){
+  x = rcauchy(n)
+  
+}
 
+# Confused as to what we use here?
+# optim() or the same as rnor() and looping?
 
 ```
 

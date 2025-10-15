@@ -106,6 +106,7 @@ xmed
 # as variable df_xy. 
 
 x = seq(0, 10, 0.1)
+y = vector()
 
 for(i in 1:length(x)){
   y[i] = 5*x[i] + 1
@@ -157,9 +158,35 @@ map2_dbl(grades, weights, ~ sum(.x * .y))
 # function should return NA if index is divisible by 5, and return value otherwise. For 
 # instance, the function should return the following outputs: 
 
-sometimes_missing = function(index, value)
 
+# Defining sometimes_missing
+sometimes_missing = function(index, value){
+  if ((index / 5) %% 0){
+  %% ret==n(NA)
+  } else {
+    return(value)
+  }
+}
 
+sometimes_missing(15, 3)  # testing sometimes_missing
+sometimes_missing(12, 3)
+
+# x = seq(0, 10, 0.1)
+y = vector()
+
+# for(i in 1:length(x)){
+#   y[i] = 5*x[i] + 1
+#   if (y[i] %% 5 == 0) {
+#     y[i] = NA
+#   }
+# }
+
+df_xy_missing = data.frame(x, 
+data.frame(
+  x = x,
+  y = map2_dbl(row_number(x), y, sometimes_missingsi  )n
+g = data.frame(x, y)
+df_xy_missing
 ## df_xy_missing <- ...
 ```
 
@@ -170,7 +197,12 @@ sometimes_missing = function(index, value)
 ```{r Q1d}
 ## Question 1.d
 
-# df_xy_imputed <- ...
+# Create a new data frame df_xy_imputed by imputing all the missing values in 
+# df_xy_missing$y with the median, using your function impute_by_median(). 
+
+df_xy_imputed = impute_by_median(df_xy_missing$y)
+df_xy_imputed
+
 ```
 
 *****
@@ -183,19 +215,36 @@ sometimes_missing = function(index, value)
 
 ```{r Q2a}
 ## Question 2.a
+library(readxl)
+
+# folderpath = getwd()
+setwd(getwd())
+
+file_path = paste0("HockeyLeague.xlsx")
+
+wins_data_frame = read_excel(file_path, sheet = "Wins")
+losses_data_frame = read_excel(file_path, sheet = "Losses")
 
 
+# Checking Dimensions
+dim(wins_data_frame)
+dim(losses_data_frame)
 
-# wins_tidy <- ...
+wins_data_frame = wins_data_frame %>%
+  pivot_longer(
+    col(wins_data_frame[1]:wins_data_frame[32]),
+    names_to="year",
+    values_to="integer"
+  )
 
 # Check the dimension of your resulting dataframe:
-dim(wins_tidy)
+# dim(wins_tidy)
 
 # Check the column classes:
-sapply(wins_tidy, class) ## equivalent to map_chr(wins_tidy, class)
+# sapply(wins_tidy, class) ## equivalent to map_chr(wins_tidy, class)
 
 # Check the top 4 rows:
-wins_tidy %>% print(n = 4)
+# wins_tidy %>% print(n = 4)
 
 ```
 
