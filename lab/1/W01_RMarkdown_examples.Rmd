@@ -1,0 +1,342 @@
+---
+title: "R Markdown formatting and maths examples"
+author: "Dr. Felipe Campelo (adapted from Dr. Rihuan Ke)"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This document provides examples of writing symbols and formulas in _RMarkdown_.
+
+For each example in this file:
+
+1. The code displayed in the gray box is the source code, which you can include in your _RMarkdown_ file to include math formulas.
+2. The formulas and text below the gray boxes represent the sample output of the source code in the gray box.
+
+Please note that:
+
+1.  The examples are not meant to indicate absolute choices of notation, as notations vary in different subjects/settings.  
+2.  You are not required to know or write all the symbols/codes displayed below, but this document can assist you in checking the source code for specific symbols/formulas when needed.
+
+## Examples
+
+```{verbatim}
+This is an inline equation $a = b+c$. This is a displayed equation
+
+\[
+a = b + c.
+\]
+
+Note that the displayed equation is on a line by itself. 
+```
+
+This is an inline equation $a = b+c$. This is a displayed equation 
+
+$$
+a = b + c.
+$$ 
+
+Note that the displayed equation is on a line by itself.
+
+***
+
+```{verbatim}
+This is italic _abcd_ / *abcd*, and this is boldface **abcd** / __abcd__. 
+You can also do **_bold italics_**.
+```
+
+This is italic _abcd_ / *abcd*, and this is boldface **abcd** / __abcd__. 
+You can also do **_bold italics_**.
+
+***
+
+```{verbatim}
+This is a list with three levels:
+ 
+1. item 1
+2. item 2
+    - item
+        a. another level
+        b. abcabc
+    - item
+    
+
+Notice that to add more levels all you need to do is to indent with a tab (or two spaces)
+```
+
+This is a list with three levels:
+ 
+1. item 1
+2. item 2
+    - item
+        a. another level
+        b. abcabc
+    - item
+    
+
+Notice that to add more levels all you need to do is to indent with a tab (or four spaces)
+
+***
+
+```{verbatim}
+the set of all real numbers $\mathbb{R}$
+
+the set of all natural numbers $\mathbb{N}$
+
+the set of all rational numbers $\mathbb{Q}$
+```
+
+the set of all real numbers $\mathbb{R}$
+
+the set of all natural numbers $\mathbb{N}$
+
+the set of all rational numbers $\mathbb{Q}$
+
+***
+
+```{verbatim}
+The percent character needs to be escaped with a backslash:
+
+$100 \%$
+```
+The percent character needs to be escaped with a backslash:
+
+$100 \%$
+
+***
+
+```{verbatim}
+Common mathematical operators. When in math mode, use ~ or `\quad` to impose spacing:
+
+$a+b, a/b, ~a^b, ~~~ a \times b, \quad a \cdot b$
+
+$a = b, \quad a \neq b, \quad a < b, \quad a \leq b, \quad a > b, \quad a \geq b.$
+```
+
+Common mathematical operators. When in math mode, use ~ or `\quad` to impose spacing:
+
+$a+b, a/b, ~a^b, ~~~ a \times b, \quad a \cdot b$
+
+$a = b, \quad a \neq b, \quad a < b, \quad a \leq b, \quad a > b, \quad a \geq b.$
+
+$\frac{a}{b}, \ \frac{f_1(a)}{f_2(b) + f_3(c)}$
+
+***
+
+```{verbatim}
+Greek letters:
+
+$\alpha, \beta, \mu, \lambda, \tau, \xi, \epsilon$
+```
+
+Greek letters:
+
+$\alpha, \beta, \mu, \lambda, \tau, \xi, \epsilon, \pi$
+
+***
+ 
+```{verbatim}
+A set of identically distributed variables following a normal distribution with 
+mean $\mu=0$ and standard deviation $\sigma = 1$:
+
+$X_1, \cdots, X_n \sim \mathcal{N}(\mu=0, \sigma=1)$
+```
+
+A set of identically distributed variables following a normal distribution with mean $\mu=0$ and standard deviation $\sigma = 1$:
+
+$X_1, \cdots, X_n \sim \mathcal{N}(\mu=0, \sigma=1)$
+
+***
+
+
+```{verbatim}
+Superscripts and subscripts:
+$a_b, \quad a^b, \quad a^{10}, \quad b^{-1}$
+```
+
+Superscripts and subscripts:
+$a_b, \quad a^b, \quad a^{10}, \quad b^{-1}$
+
+$b^{1/2} = \sqrt{b}$
+
+***
+
+
+```{verbatim}
+Use `\left` and `\right` together with parentheses, brackets etc. to 
+automatically adjust the size: 
+
+$\left[a, \frac{b}{c}\right]$
+
+$\left\{\sum\limits_{n=1}^{\infty}\frac{1}{n}\right\}$
+```
+
+Use `\left` and `\right` together with parentheses, brackets etc. to automatically adjust the size: 
+
+$\left[a, \frac{b}{c}\right]$
+
+$\left\{\sum\limits_{n=1}^{\infty}\frac{1}{n}\right\}$
+
+***
+
+```{verbatim}
+Top annotations:
+
+$\tilde{X}, \quad \widetilde{X}, \quad \hat{X}, \quad \widehat{X}, \quad \overline{X}$ 
+```
+
+Top annotations:
+
+$\tilde{X}, \quad \widetilde{X}, \quad \hat{X}, \quad \widehat{X}, \quad \overline{X}$ 
+
+***
+
+```{verbatim}
+Set operations: 
+
+$A \cap B, \quad A \cup B$
+
+$\cap_{k=1}^K A_k, \quad \cup_{k=1}^K A_k$
+
+$A \backslash B
+
+$a \in \mathbb{R}, \quad a \notin \mathbb{R}$
+
+$\emptyset$
+
+$A \subseteq B$
+```
+
+Set operations: 
+
+$A \cap B, \quad A \cup B$
+
+$\cap_{k=1}^K A_k, \quad \cup_{k=1}^K A_k$
+
+$A \backslash B$
+
+$a \in \mathbb{R}, \quad a \notin \mathbb{R}$
+
+$\emptyset$
+
+$A \subseteq B$
+
+$\{w_1, w_2, \cdots, w_K\}$
+
+***
+
+
+```{verbatim}
+Multi-level subscripting:
+$A_i$, $A_{i_1}$
+```
+
+Multi-level subscripting:
+
+$A_i$, $A_{i_1}$
+
+***
+
+```{verbatim}
+Some math font styles:
+
+$\mathbf{A}, \quad \mathcal{A}, \quad \mathbb{A}, \quad \mathit{A}$
+```
+
+Some math font styles:
+
+$\mathbf{N}, \quad \mathcal{N}, \quad \mathbb{N}, \quad \mathit{N}$
+\
+
+```{verbatim}
+Expressions:
+
+$\{(a,b) | a + b = 3 \}$
+
+$A:=\{1,2\}$
+
+$X_i < \text{q25} - 1.5 \times \text{IQR}, \quad \text{or} \quad X_i 
+> \text{q75} + 1.5 \times \text{IQR}$
+
+${\rm Cov}(X, Y), \ {\rm Var}(X)$
+
+$\sum_{i=0}^\infty a_i, \quad \prod_{i=0}^\infty a_i$
+
+${{n}\choose{k}} = \frac{n!}{k!(n-k)!}$
+```
+
+Expressions:
+
+$\{(a,b) | a + b = 3 \}$
+
+$A:=\{1,2\}$
+
+$X_i < \text{q25} - 1.5 \times \text{IQR}, \quad \text{or} \quad X_i 
+> \text{q75} + 1.5 \times \text{IQR}$
+
+${\rm Cov}(X, Y), \ {\rm Var}(X)$
+
+$\sum_{i=0}^\infty a_i, \quad \prod_{i=0}^\infty a_i$
+
+${{n}\choose{k}} = \frac{n!}{k!(n-k)!}$
+
+***
+
+```{verbatim}
+Conditional functions:
+
+\[
+F(x) = \begin{cases}
+1 & \mbox{if } x = 0 \\
+0 & \mbox{otherwise} \\
+\end{cases}
+\]
+```
+
+Conditional functions:
+
+\[
+F(x) = \begin{cases}
+1 & \mbox{if } x = 0 \\
+0 & \mbox{otherwise} \\
+\end{cases}
+\]
+
+```{verbatim}
+Integrals, limits, partial derivatives, gradients:
+
+$\int_a^b f(x) dx$
+
+$\frac{\partial}{\partial x} f, \frac{\partial^2}{\partial x^2} f$
+
+$\nabla f(\vec{x})$
+
+$\underset{n \rightarrow \infty}{\rm lim} f(n)$
+
+```
+
+Integrals, partial derivatives, gradients:
+
+$\int_a^b f(x) dx$
+
+$\frac{\partial}{\partial x} f, \frac{\partial^2}{\partial x^2} f$
+
+$\nabla f(\vec{x})$
+
+$\underset{n \rightarrow \infty}{\rm lim} f(n)$
+
+***
+
+```{verbatim}
+Norms:
+
+$\| A \|_2$
+
+```
+
+Norms:
+
+$\| A \|_2$
+
