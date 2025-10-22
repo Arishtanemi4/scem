@@ -1,0 +1,282 @@
+---
+title: "Assignment 05 - Solutions"
+subtitle: "Statistical Computing and Empirical Methods"
+author: "YOUR_NAME (YOUR_STUDENT_ID)"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## A word of advice
+Think of the SCEM labs as going to the gym: if you pay a gym membership, but instead of working out you use a machine to lift the weights for you, you won't get the benefits.
+
+ChatGPT, DeepSeek, Claude and other GenAI tools can provide answers to most of the questions below. Before you try that, please consider the following: answering the specific questions below is not the point of this assignment. Instead, the questions are designed to give you the chance to develop a better understanding of estimation concepts and a certain level of _**statistical thinking**_. These are essential skills for any data scientist, even if they end up using generative AI - to write an effective prompt and to catch the common (often subtle) errors that AI produces when trying to solve anything non-trivial.
+
+A very important part of this learning involves not having the answers ready-made for you, but instead taking the time to actually search for the answer, trying something, getting it wrong, and trying again.
+
+So, make the best use of this session. The assignments are not marked, so it is much better to try the yourself even if you get incorrect answers (you'll be able to correct yourself later when you receive feedback) than to submit a perfect, but GPT'd solution.
+
+-----
+
+## IMPORTANT NOTES: 
+- **DO NOT** change the code block names. Enter your solutions to each question into the predefined code blocks. 
+- **DO NOT** add calls to `install.packages()` into your solutions. Some questions may require you to load packages using `library()`. Please do not use any other packages except the ones explicitly listed in the "setup" code block. 
+
+---
+
+## Setup
+
+This code block below sets up your session. The only think you should change in it is to replace `"ABCDEFG"` by your student ID number, which will be used as the seed for your random number generators.
+
+```{r ID, echo=FALSE, message=FALSE, warning=FALSE}
+## We will use your student ID as the seed for the random number generator.
+MY_STUDENT_ID <- "ABCDEFG" # <-- Replace "ABCDEFG" by your student ID number (as an integer, i.e., without quotes).
+```
+
+```{r Setup, echo=FALSE, message=FALSE, warning=FALSE}
+## DO NOT CHANGE ANYTHING IN THIS CODE BLOCK
+
+## Note: tidyverse includes:
+## ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, forcats, and lubridate.
+## Check https://www.tidyverse.org/packages/ for details
+
+allowed.packages <- c("dplyr", "tidyr", "ggplot2", "jsonlite", "jquerylib")
+
+for (i in seq_along(allowed.packages)){
+  if(!(allowed.packages[i] %in% installed.packages()[, 1])){
+    install.packages(allowed.packages[i], 
+                     repos = "https://cloud.r-project.org",
+                     dependencies = c("Depends", "Imports", "Suggests"))
+  }
+  library(allowed.packages[i], character.only = TRUE)
+}
+
+knitr::opts_chunk$set(echo = TRUE, collapse=TRUE)
+ignore <- runif(1) # To initialise the PRNG
+```
+```{r checkID, echo=FALSE}
+if(!is.numeric(MY_STUDENT_ID)){
+  stop("MY_STUDENT_ID MUST BE YOUR VALID NUMERIC ID.")
+} 
+```
+
+### Q1: Warm up:
+
+:::{#prompt .message style="color: blue;"}
+**a.** Read the file `fc_weight_perception.csv` into a variable called `df`. 
+:::
+
+```{r Q1a}
+## Question 1.a
+
+
+```
+
+:::{#prompt .message style="color: blue;"}
+**b.** Plot the histogram of the values in column `Estimate` of the dataframe `df`. 
+:::
+
+```{r Q1b}
+## Question 1.b
+
+
+```
+
+:::{#prompt .message style="color: blue;"}
+**c.** Remove the observations with `Estimate` < 30 or `Estimate` > 110 from the dataframe `df`. Store the filtered data as `df2`.
+:::
+
+```{r Q1c}
+## Question 1.c
+
+
+```
+
+### Q2: Formalising your hypotheses
+
+:::{#prompt .message style="color: blue;"}
+**a.** Use the template below to express your null and alternative hypotheses. 
+:::
+
+:::{#Q2a .message style="color: black;"}
+$$
+\begin{cases}
+H_0: add~your~null~hypothesis\\
+H_1: add~your~alternative~hypothesis
+\end{cases}
+$$
+:::
+
+### Q3: one-sided t-test
+
+:::{#prompt .message style="color: blue;"}
+**a.** Use the function `readRDS()` to read that file into a variable called `df.comp`.
+:::
+
+```{r Q3a}
+## Question 3.a
+
+
+```
+
+:::{#prompt .message style="color: blue;"}
+**b.** Formalise the null and alternative hypotheses being tested in each case (complete below).
+:::
+
+:::{#Q3b .message style="color: black;"}
+The hypotheses being tested are:
+
+\begin{cases}
+H_0: \mu_{ppv} = ...\\
+H_1: \mu_{ppv} ...
+\end{cases}
+
+\begin{cases}
+H_0: \mu_{npv} = ...\\
+H_1: \mu_{npv} ...
+\end{cases}
+
+:::
+
+:::{#prompt .message style="color: blue;"}
+**c.** Using the `t.test` function to test the hypotheses on the mean PPV at the $99\%$ confidence level.
+:::
+
+```{r Q3c}
+## Question 3.c
+
+
+## Don't forget to store the result of the t-test as variable mytest.ppv
+```
+
+:::{#Q3c_txt .message style="color: black;"}
+From the test results above, we can see that...
+
+:::
+
+
+:::{#prompt .message style="color: blue;"}
+**d.** Repeat the same test (with the same confidence level) for the mean NPV, and store the result of your test in a variable called `mytest.npv`. Inspect the result of this test too - is it statistically significant, what are the sample mean $\bar{X}$ and the $99\%$ confidence interval?
+:::
+
+```{r Q3d}
+## Question 3.d
+
+
+## Don't forget to store the result of the t-test as variable mytest.npv
+```
+
+:::{#Q3d_txt .message style="color: black;"}
+From the test results above, we can see that...
+
+:::
+
+
+:::{#prompt .message style="color: blue;"}
+**e.** Based on the result of your tests and on the definition of what makes a useful test provided at the start of this question, can we consider the baseline model tested as a useful method?
+:::
+
+:::{#Q3e_txt .message style="color: black;"}
+From the results obtained for both the PPV and NPV, ...
+
+:::
+
+
+### Q4: power and sample size
+
+:::{#prompt .message style="color: blue;"}
+**a.** Compute the sample size required for 90% power at $\alpha = 0.05$. Store it (just the sample size, not the entire output of `power.t.test()`) as variable `myN`.
+:::
+
+
+```{r Q4a}
+## Question 4.a
+
+
+## Don't forget to store the sample size as variable myN. 
+## Remember that sample sizes should be integers.
+```
+
+:::{#prompt .message style="color: blue;"}
+**b.** Build a _power curve_ and store it as dataframe `power.df` with columns `n` and `power`. Then then use ggplot2 to plot the `n` versus `power` curve. 
+:::
+
+```{r Q4b}
+## Question 4.b
+
+
+## Don't forget to store the resulting dataframe as variable power.df
+```
+
+### Q5: Putting it all together
+
+:::{#prompt .message style="color: blue;"}
+**a.** Load the data from file *UPMSP_SA_full_results.rds* and use `head()` to inspect its first rows. Use `filter()` to keep only the rows for which `Algorithm == "Full"`, then `group_by(Instance)` and `summarise(Mean.MS = mean(Makespan))` to create data frame `q5.df.summ`, according to the instructions provided in the assignment brief.
+
+```{r Q5a}
+## Question 5.a
+
+
+## Don't forget to store the resulting summarised dataframe as variable q5.df.summ
+```
+
+
+:::{#prompt .message style="color: blue;"}
+**b.** Write down the test hypotheses $H_0$ and $H_1$. Recall from the question description that we are interested in checking if method "Full" has a mean _Makespan_ lower than 240s. 
+:::
+
+:::{#Q5b .message style="color: black;"}
+For the experiment in this question, the hypotheses are:
+
+...
+
+:::
+
+
+
+:::{#prompt .message style="color: blue;"}
+**c.** Estimate the statistical power of the one-sample t-test to detect a (normalised) effect size of $d = 0.5$, with the test is run with significance level $\alpha = 0.05$ and a one-sided $H_1$. Store the power as variable `q5.t.power`.
+:::
+
+```{r Q5c}
+## Question 5.c
+
+
+## Don't forget to store the resulting summarised dataframe as variable q5.t.power
+```
+
+
+:::{#prompt .message style="color: blue;"}
+**d.** Use `ggplot2` to visually check the normality of the values of `Mean.MS` in `q5.df.summ`. Check the example qq-plots earlier in this lab for code references. Is the sample consistent with a normal distribution?
+:::
+
+```{r Q5d}
+## Question 5.d
+
+
+```
+
+
+:::{#prompt .message style="color: blue;"}
+**e.** As a baseline, run a `t.test()` on the values of `q5.df.summ$Mean.MS` (with $\alpha = 0.05$, a one-sided lower $H_1$, and the appropriate value of $\mu_0$). Observe the p-value and estimated (one-sided) confidence interval (note that one-sided CIs are open intervals). Store the p-value as variable `q5.parametric.p`.
+:::
+
+```{r Q5e}
+## Question 5.e
+
+
+## Don't forget to store the resulting p-value as variable q5.parametric.p
+```
+
+:::{#prompt .message style="color: blue;"}
+**f.** Now adapt the example code provided earlier and run a bootstrap t-test. Calculate the bootstrap p-value and store it as `q5.boot.p`. Compare it against the one provided by the parametric t-test in item **e**.
+(Tip: think about the directionality of $H_1$ and how it affects the calculation of $p$ in the bootstrap case.)
+:::
+
+```{r Q5f}
+set.seed(MY_STUDENT_ID)
+## Question 5.f
+
+## Don't forget to store the resulting p-value as variable q5.boot.p
+```
