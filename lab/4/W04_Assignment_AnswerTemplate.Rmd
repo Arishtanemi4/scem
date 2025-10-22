@@ -230,13 +230,13 @@ losses_data_frame = read_excel(file_path, sheet = "Losses")
 dim(wins_data_frame)
 dim(losses_data_frame)
 
-wins_data_frame = wins_data_frame %>%
-  pivot_longer(
-    col(wins_data_frame[1]:wins_data_frame[32]),
+wins_data_frame -> wins_data_frame %>%
+  mutate(
+    pipivot_longer(
+    cols=c(starts_with('19'), starts_with("20")),
     names_to="year",
     values_to="integer"
-  )
-
+ins_dtame
 # Check the dimension of your resulting dataframe:
 # dim(wins_tidy)
 
