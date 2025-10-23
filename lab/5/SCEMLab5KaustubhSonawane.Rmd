@@ -75,6 +75,8 @@ df = read.csv("fc_weight_perception.csv")
 head(df)
 
 dim(df)
+
+summary(df)
 ```
 
 :::{#prompt .message style="color: blue;"}
@@ -134,25 +136,23 @@ mytest
 
 ``` {r Q2}
 
-# ggplot(df2, aes(x = Estimate)) +  
-#   # Density plot 
-#   geom_density(fill = "blue", alpha = 0.25) + 
-#   # Boxplot 
-#   geom_boxplot(width = 0.005, outliers = FALSE, col = "darkblue") +  
-#   # Plot points with vertical jittering 
-#   geom_jitter(aes(y = -0.005), height = 0.001, size = .75) + 
-#   # H0 value line 
-#   geom_vline(xintercept = mytest$null.value, linetype = 2, col = "red") + 
-#   # Add confidence interval 
-#   annotate("pointrange", y = .005, x = mytest$estimate,  
-#   xmin = mytest$conf.int[1], xmax = mytest$conf.int[2]) + 
-#   # Add p-value 
-#   annotate("text", x = mytest$estimate, y = 0.01,  
-#   label = paste0("p = ", signif(mytest$p.value, 2))) + 
-#   # Add text annotation 
-#   annotate("text", x = mytest$null.value + 1, y = 0.05, label = "mu[0]", parse = TRUE) +
-#   theme_minimal() +
-#   ylab("Density")
+ggplot(df2, aes(x = Estimate)) +
+  # Density plot
+  geom_density(fill = "blue", alpha = 0.25) +
+  # Boxplot
+  geom_boxplot(width = 0.005, outliers = FALSE, col = "darkblue") +
+  # # Plot points with vertical jittering
+  geom_jitter(aes(y = -0.005), height = 0.001, size = .75) +
+  # # H0 value line
+  geom_vline(xintercept = mytest$null.value, linetype = 2, col = "red") +
+  # Add confidence interval
+  annotate("pointrange", y = .005, x = mytest$estimate, xmin = mytest$conf.int[1], xmax = mytest$conf.int[2]) +
+  # Add p-value
+  annotate("text", x = mytest$estimate, y = 0.01, label = paste0("p = ", signif(mytest$p.value, 2))) +
+  # Add text annotation
+  annotate("text", x = mytest$null.value + 1, y = 0.05, label = "mu[0]", parse = TRUE) +
+  theme_minimal() +
+  ylab("Density")
   
 ```
 
@@ -178,13 +178,13 @@ df.comp
 The hypotheses being tested are:
 $$
 \begin{cases}
-H_0: \mu_{ppv} > 0.5\\
-H_1: \mu_{ppv} <= 0.5
+H_0: \mu_{ppv} <= 0.5\\
+H_1: \mu_{ppv} > 0.5
 \end{cases}
 
 \begin{cases}
-H_0: \mu_{npv} > 0.5 \\ 
-H_1: \mu_{npv} <= 0.5
+H_0: \mu_{npv} <= 0.5 \\ 
+H_1: \mu_{npv} > 0.5
 \end{cases}
 $$
 :::
@@ -236,6 +236,10 @@ my_test2
 :::{#Q3d_txt .message style="color: black;"}
 From the test results above, we can see that...
 
+P-value for PPV is 5.17e-13 which is significantly lower that 0.01 and true mean 0.683 is also greater than 0.5 thus null hypothesis rejected.
+
+P-value for NPV is 0.9997 which is significantly higher that 0.01 and true mean 0.402 is also lower than 0.5 thus null hypothesis is accepted.
+
 :::
 
 
@@ -246,6 +250,8 @@ From the test results above, we can see that...
 :::{#Q3e_txt .message style="color: black;"}
 From the results obtained for both the PPV and NPV, ...
 
+
+Sine the null hypothesis was not rejected for NPV even though it was rejected for PPV the baseline model is not better.
 :::
 
 
@@ -259,9 +265,21 @@ From the results obtained for both the PPV and NPV, ...
 ```{r Q4a}
 ## Question 4.a
 
-
 ## Don't forget to store the sample size as variable myN. 
 ## Remember that sample sizes should be integers.
+
+?power.t.test()
+
+myN = power.t.test(
+  delta = 0.01,
+  sd = 0.05,
+  power = 0.9,
+  sig.level = 0.05,
+  type = "two.sample",  # Not sure as to what should be here? two since it is an improvement being tested?
+  alternative = "one.sided",
+)$n
+
+myN
 ```
 
 :::{#prompt .message style="color: blue;"}
@@ -273,6 +291,44 @@ From the results obtained for both the PPV and NPV, ...
 
 
 ## Don't forget to store the resulting dataframe as variable power.df
+
+# power.df = data.frame(
+#   n = c(), power=c("")
+#   )
+
+# power.df$power
+
+n = c()
+power = c()
+
+power_calc = function(n){
+  power_var = power.t.test(
+    n = n,
+    delta = 0.01,
+    sd = 0.05,
+    # power = 0.9,  # Not Needed
+    sig.level = 0.05,
+    type = "two.sample",  # Not sure as to what should be here? two since it is an improvement being tested?
+    alternative = "one.sided",
+  )$power
+  
+  return(power_var)
+}
+
+for (i in 1:300){
+  n[i] = i
+  power[i] = power_calc(i)
+}
+
+power.df = data.frame(
+  n, power
+)
+
+ggplot(data = power.df, aes(x = power.df$n, y = power.df$power)) +
+  geom_line() +
+  xlab('N') +
+  ylab('Power')
+
 ```
 
 ### Q5: Putting it all together
