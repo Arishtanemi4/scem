@@ -1,0 +1,417 @@
+---
+title: "Assignment 05 - Solutions"
+subtitle: "Statistical Computing and Empirical Methods"
+author: "YOUR_NAME (YOUR_STUDENT_ID)"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## A word of advice
+Think of the SCEM labs as going to the gym: if you pay a gym membership, but instead of working out you use a machine to lift the weights for you, you won't get the benefits.
+
+ChatGPT, DeepSeek, Claude and other GenAI tools can provide answers to most of the questions below. Before you try that, please consider the following: answering the specific questions below is not the point of this assignment. Instead, the questions are designed to give you the chance to develop a better understanding of estimation concepts and a certain level of _**statistical thinking**_. These are essential skills for any data scientist, even if they end up using generative AI - to write an effective prompt and to catch the common (often subtle) errors that AI produces when trying to solve anything non-trivial.
+
+A very important part of this learning involves not having the answers ready-made for you, but instead taking the time to actually search for the answer, trying something, getting it wrong, and trying again.
+
+So, make the best use of this session. The assignments are not marked, so it is much better to try the yourself even if you get incorrect answers (you'll be able to correct yourself later when you receive feedback) than to submit a perfect, but GPT'd solution.
+
+-----
+
+## IMPORTANT NOTES: 
+- **DO NOT** change the code block names. Enter your solutions to each question into the predefined code blocks. 
+- **DO NOT** add calls to `install.packages()` into your solutions. Some questions may require you to load packages using `library()`. Please do not use any other packages except the ones explicitly listed in the "setup" code block. 
+
+---
+
+## Setup
+
+This code block below sets up your session. The only think you should change in it is to replace `"ABCDEFG"` by your student ID number, which will be used as the seed for your random number generators.
+
+```{r ID, echo=FALSE, message=FALSE, warning=FALSE}
+## We will use your student ID as the seed for the random number generator.
+MY_STUDENT_ID <- 1234567 # <-- Replace "ABCDEFG" by your student ID number (as an integer, i.e., without quotes).
+```
+
+```{r Setup, echo=FALSE, message=FALSE, warning=FALSE}
+## DO NOT CHANGE ANYTHING IN THIS CODE BLOCK
+
+## Note: tidyverse includes:
+## ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, forcats, and lubridate.
+## Check https://www.tidyverse.org/packages/ for details
+
+allowed.packages <- c("dplyr", "tidyr", "ggplot2", 
+                      "jsonlite", "jquerylib", "knitr", "rmarkdown")
+
+for (i in seq_along(allowed.packages)){
+  if(!(allowed.packages[i] %in% installed.packages()[, 1])){
+    install.packages(allowed.packages[i], 
+                     repos = "https://cloud.r-project.org",
+                     dependencies = c("Depends", "Imports", "Suggests"))
+  }
+  library(allowed.packages[i], character.only = TRUE)
+}
+
+knitr::opts_chunk$set(echo = TRUE, collapse=TRUE)
+ignore <- runif(1) # To initialise the PRNG
+```
+```{r checkID, echo=FALSE}
+if(!is.numeric(MY_STUDENT_ID)){
+  stop("MY_STUDENT_ID MUST BE YOUR VALID NUMERIC ID.")
+} 
+```
+
+### Q1: Warm up:
+
+:::{#prompt .message style="color: blue;"}
+**a.** Read the file `fc_weight_perception.csv` into a variable called `df`. 
+:::
+
+```{r Q1a}
+#' Required variables: df
+#' Required plot: NA
+
+## Question 1.a
+df <- read.csv("./fc_weight_perception.csv", header = TRUE)
+
+```
+
+:::{#prompt .message style="color: blue;"}
+**b.** Plot the histogram of the values in column `Estimate` of the dataframe `df`. 
+:::
+
+```{r Q1b}
+#' Required variables: NA
+#' Required plot: histogram
+
+## Question 1.b
+library(ggplot2)
+ggplot(df, aes(x = Estimate)) + 
+  geom_histogram(fill = "#00dddd88", bins = 25) + 
+  theme_light()
+
+```
+
+:::{#prompt .message style="color: blue;"}
+**c.** Remove the observations with `Estimate` < 30 or `Estimate` > 110 from the dataframe `df`. Store the filtered data as `df2`.
+:::
+
+```{r Q1c}
+#' Required variables: df2
+#' Required plot: NA
+#' 
+## Question 1.c
+library(dplyr)
+df2 <- df %>%
+  filter(Estimate >= 30, Estimate <= 110)
+```
+
+### Q2: Formalising your hypotheses
+
+:::{#prompt .message style="color: blue;"}
+**a.** Use the template below to express your null and alternative hypotheses. 
+:::
+
+:::{#Q2a .message style="color: black;"}
+$$
+\begin{cases}
+H_0: \mu=81kg\\
+H_1: \mu\neq 81kg
+\end{cases}
+$$
+:::
+
+### Q3: one-sided t-test
+
+:::{#prompt .message style="color: blue;"}
+**a.** Use the function `readRDS()` to read that file into a variable called `df.comp`.
+:::
+
+```{r Q3a}
+#' Required variables: df.comp
+#' Required plot: NA
+
+## Question 3.a
+df.comp <- readRDS("./EBV-200-HybridA-performance.rds")
+
+```
+
+:::{#prompt .message style="color: blue;"}
+**b.** Formalise the null and alternative hypotheses being tested in each case (complete below).
+:::
+
+:::{#Q3b .message style="color: black;"}
+The hypotheses being tested are:
+
+\begin{cases}
+H_0: \mu_{ppv} = 0.5 \\
+H_1: \mu_{ppv} > 0.5
+\end{cases}
+
+\begin{cases}
+H_0: \mu_{npv} = 0.5\\
+H_1: \mu_{npv} > 0.5
+\end{cases}
+
+:::
+
+:::{#prompt .message style="color: blue;"}
+**c.** Using the `t.test` function to test the hypotheses on the mean PPV at the $99\%$ confidence level.
+:::
+
+```{r Q3c}
+#' Required variables: mytest.ppv
+#' Required plot: NA
+
+## Question 3.c
+mytest.ppv <- t.test(df.comp$ppv, alternative = "greater", mu = 0.5, conf.level = 0.99)
+mytest.ppv
+
+## Don't forget to store the result of the t-test as variable mytest.ppv
+```
+
+:::{#Q3c_txt .message style="color: black;"}
+From the test results above, we can see that the null hypothesis was rejected at the 99% confidence level, since the p-value was `r signif(mytest.ppv$p.value, 3)` < 0.01. The sample mean is `r mytest.ppv$estimate`, and the 99% confidence interval (which is open, since we're only looking at a lower confidence bound) was `r mytest.ppv$conf.int`.
+:::
+
+
+:::{#prompt .message style="color: blue;"}
+**d.** Repeat the same test (with the same confidence level) for the mean NPV, and store the result of your test in a variable called `mytest.npv`. Inspect the result of this test too - is it statistically significant, what are the sample mean $\bar{X}$ and the $99\%$ confidence interval?
+:::
+
+```{r Q3d}
+#' Required variables: mytest.npv
+#' Required plot: NA
+
+## Question 3.d
+mytest.npv <- t.test(df.comp$npv, alternative = "greater", mu = 0.5, conf.level = 0.99)
+mytest.npv
+
+## Don't forget to store the result of the t-test as variable mytest.npv
+```
+
+:::{#Q3d_txt .message style="color: black;"}
+From the test results above, we can see that we could not reject the null hypothesis at the 99% confidence level. The p-value was `r signif(mytest.npv$p.value, 3)`, which is much greater than 0.01. The sample mean is `r mytest.npv$estimate`, and the 99% confidence interval (which is open, since we're only looking at a lower confidence bound) was `r mytest.npv$conf.int`. The $(1-\alpha)$ CI does includes the value of $\mu_0 = 0.5$, which is consistent with the p-value being greater than $\alpha$.
+
+:::
+
+
+:::{#prompt .message style="color: blue;"}
+**e.** Based on the result of your tests and on the definition of what makes a useful test provided at the start of this question, can we consider the baseline model tested as a useful method?
+:::
+
+:::{#Q3e_txt .message style="color: black;"}
+From the results obtained for both the PPV and NPV, we would not consider this method as being a useful one. Although the PPV clears the 0.5 threshold at a statistically significant level, the same cannot be said of the NPV, and therefore the method should not be recommended for this problem.
+
+:::
+
+
+### Q4: power and sample size
+
+:::{#prompt .message style="color: blue;"}
+**a.** Compute the sample size required for 90% power at $\alpha = 0.05$. Store it (just the sample size, not the entire output of `power.t.test()`) as variable `myN`.
+:::
+
+
+```{r Q4a}
+#' Required variables: myN
+#' Required plot: NA
+
+## Question 4.a
+myPower <- power.t.test(delta = .01, sd = .05, sig.level = .05, power = .9, 
+                        type = "one.sample", alternative = "one.sided")
+
+myPower
+
+myN <- ceiling(myPower$n)
+
+cat("Required sample size:", myN)
+
+## Don't forget to store the sample size as variable myN. 
+## Remember that sample sizes should be integers.
+```
+
+:::{#prompt .message style="color: blue;"}
+**b.** Build a _power curve_ and store it as dataframe `power.df` with columns `n` and `power`. Then then use ggplot2 to plot the `n` versus `power` curve. 
+:::
+
+```{r Q4b}
+#' Required variables: power.df
+#' Required plot: power curve
+
+## Question 4.b
+power.df <- lapply(10:300, 
+                   \(n){
+                     tmpPower <- power.t.test(n, delta = 0.01, sd = 0.05, sig.level = 0.05, 
+                                              type = "one", alternative = "one")
+                     data.frame(n = n, power = tmpPower$power)
+                   }) %>%
+  bind_rows()
+
+ggplot(power.df, aes(x = n, y = power)) + 
+  geom_line() + 
+  theme_light() +
+  xlab("Sample size") + ylab("Power") + 
+  ggtitle("Power curve for one-sample t-test", "one-sided alternative, alpha = 0.05, delta = 0.01, sd = 0.05")
+
+## Don't forget to store the resulting dataframe as variable power.df
+```
+
+### Q5: Putting it all together
+
+:::{#prompt .message style="color: blue;"}
+**a.** Load the data from file *UPMSP_SA_full_results.rds* and use `head()` to inspect its first rows. Use `filter()` to keep only the rows for which `Algorithm == "Full"`, then `group_by(Instance)` and `summarise(Mean.MS = mean(Makespan))` to create data frame `q5.df.summ`, according to the instructions provided in the assignment brief.
+
+```{r Q5a}
+#' Required variables: q5.df.summ
+#' Required plot: power curve
+
+## Question 5.a
+df <- readRDS("./UPMSP_SA_full_results.rds")
+head(df)
+
+q5.df.summ <- df %>% 
+  filter(Algorithm == "Full") %>%
+  group_by(Instance) %>%
+  summarise(Mean.MS = mean(Makespan))
+
+## Don't forget to store the resulting summarised dataframe as variable q5.df.summ
+```
+
+
+:::{#prompt .message style="color: blue;"}
+**b.** Write down the test hypotheses $H_0$ and $H_1$. Recall from the question description that we are interested in checking if method "Full" has a mean _Makespan_ lower than 240s. 
+:::
+
+:::{#Q5b .message style="color: black;"}
+For the experiment in this question, the hypotheses are:
+
+\begin{cases}
+H_0: \mu = 240\\
+H_1: \mu < 240
+\end{cases}
+
+:::
+
+
+
+:::{#prompt .message style="color: blue;"}
+**c.** Estimate the statistical power of the one-sample t-test to detect a (normalised) effect size of $d = 0.5$, with the test is run with significance level $\alpha = 0.05$ and a one-sided $H_1$. Store the power as variable `q5.t.power`.
+:::
+
+```{r Q5c}
+#' Required variables: q5.t.power
+#' Required plot: NA
+
+## Question 5.c
+tmpPower <- power.t.test(n = nrow(q5.df.summ), delta = .5, sd = 1, sig.level = .05, 
+                         type = "one", alternative = "one")
+q5.t.power <- tmpPower$power
+
+cat("\nPower = ", q5.t.power)
+
+## Don't forget to store the resulting power as variable q5.t.power
+```
+
+
+:::{#prompt .message style="color: blue;"}
+**d.** Use `ggplot2` to visually check the normality of the values of `Mean.MS` in `q5.df.summ`. Check the example qq-plots earlier in this lab for code references. Is the sample consistent with a normal distribution?
+:::
+
+```{r Q5d}
+#' Required variables: NA
+#' Required plot: QQ-plot
+
+## Question 5.d
+ggplot(q5.df.summ, aes(sample = Mean.MS)) + 
+  geom_qq() + 
+  geom_qq_line() + 
+  theme_light() + 
+  xlab("Normal quantiles") + ylab("Sample quantiles") + 
+  ggtitle("Normal QQplot of Mean.MS")
+
+cat("\nThe sample is not consistent with a normal distribution.")
+
+```
+
+
+:::{#prompt .message style="color: blue;"}
+**e.** As a baseline, run a `t.test()` on the values of `q5.df.summ$Mean.MS` (with $\alpha = 0.05$, a one-sided lower $H_1$, and the appropriate value of $\mu_0$). Observe the p-value and estimated (one-sided) confidence interval (note that one-sided CIs are open intervals). Store the p-value as variable `q5.parametric.p`.
+:::
+
+```{r Q5e}
+#' Required variables: q5.parametric.p
+#' Required plot: NA
+
+## Question 5.e
+(q5.parametric.t <- t.test(q5.df.summ$Mean.MS, alternative = "less", mu = 240, conf.level = 0.95))
+
+q5.parametric.p <- q5.parametric.t$p.value
+
+cat("\np = ", q5.parametric.p)
+## Don't forget to store the resulting p-value as variable q5.parametric.p
+```
+
+:::{#prompt .message style="color: blue;"}
+**f.** Now adapt the example code provided earlier and run a bootstrap t-test. Calculate the bootstrap p-value and store it as `q5.boot.p`. Compare it against the one provided by the parametric t-test in item **e**.
+(Tip: think about the directionality of $H_1$ and how it affects the calculation of $p$ in the bootstrap case.)
+:::
+
+```{r Q5f}
+#' Required variables: q5.boot.p
+#' Required plot: NA
+
+set.seed(MY_STUDENT_ID)
+## Question 5.f
+
+mu_0  <- 240
+nboot <- 10000
+X <- q5.df.summ$Mean.MS
+
+# Compute the observed t0 from the sample X.
+t0 <- q5.parametric.t$statistic
+
+# Centre the data on the null hypothesis
+Xc <- X - mean(X) + mu_0
+
+# Generate nboot bootstrap resamples of X_c
+# For each resample, compute a bootstrap t-statistic
+t0_star <- replicate(n = nboot, 
+                     expr = {
+                       t.test(sample(Xc, replace = TRUE), 
+                              alternative = "less", 
+                              mu = mu_0, 
+                              conf.level = 0.95)$statistic},  # bootstrap t0*
+                     simplify = TRUE)
+
+# Calculate p value from the definition: 
+# probability under H0 of getting a value of the test statistic at least as 
+# extreme as the one that was observed)
+p <-  sum(t0_star < t0) / nboot
+
+# The smallest nonzero value of p that can be calculated in a bootstrap is 
+# 1/nboot, so if we get zero we want to be precise with that:
+p.txt <- ifelse(p == 0,
+                paste0("p < ", 1/nboot),
+                paste0("p = ", p))
+
+# Histogram of the bootstrap distribution of t0 under the null hypothesis, 
+# vs. the actual observed value of t0
+ggplot(data.frame(x = t0_star), aes(x = x)) + 
+  geom_histogram(fill = "#0000ff44", bins = 30) +
+  annotate("point", x = t0, y = 0, col = "red", cex = 2, pch = 20) +
+  # After this point it's all decoration
+  annotate("text", x = t0, y = 100, label = "Observed t0", col = "red") +
+  annotate("text", x = 0, y = 100, label = "Bootstrap t0") +
+  xlab("t0") + ylab("count") + 
+  ggtitle("Bootstrap t test on the mean", subtitle = p.txt) + 
+  theme_minimal()
+
+cat("\nBootstrap p-value:", p.txt, "\nParametric p-value: p = ", signif(q5.parametric.p, 3))
+cat("\nIn both cases, reject H0 at the 95% confidence level.")
+
+q5.boot.p <- p
+
+## Don't forget to store the resulting p-value as variable q5.boot.p
+```
