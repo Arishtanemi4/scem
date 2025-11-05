@@ -70,8 +70,8 @@ allowed.packages <- c("tidyverse", "NHANES", "multcomp", "MKpower",
 for (i in seq_along(allowed.packages)){
   if(!(allowed.packages[i] %in% installed.packages()[, 1])){
     install.packages(allowed.packages[i], 
-                     repos = "https://cloud.r-project.org",
-                     dependencies = c("Depends", "Imports", "Suggests"))
+                     repos = "https://cloud.r-project.org")
+                     # dependencies = c("Depends", "Imports", "Suggests"))
   }
 }
 
@@ -95,11 +95,19 @@ if(!is.numeric(MY_STUDENT_ID)){
 #' Required variables: bp.df (data.frame)
 #' Required plots: NA
 library(NHANES)
+library(dplyr)
+library(ggplot2)
 
 data("NHANES")
 
+
 bp.df = NHANES %>%
-  filter()
+  filter(Age >= 25, Age <=30) %>%
+  select(Gender, BPSysAve) %>%
+  filter(!is.na(BPSysAve))  # %>%
+  # filter(!is.na(Gender))
+
+dim(bp.df)
 ```
 
 ::: {.message style="color: blue;"}
@@ -110,6 +118,13 @@ bp.df = NHANES %>%
 #' Required variables: NA
 #' Required plots: violin+jittered plot
 
+ggplot(bp.df) +
+  geom_violin(aes(x = Gender, y = BPSysAve, fill = Gender), alpha = 0.5) +
+  geom_jitter(aes(x = Gender, y = BPSysAve), width = 0.05) +
+  theme_minimal() +
+  ylab('Average Systolic Blood Pressure (mmHg)') +
+  ggtitle('Blood Pressure') +
+  labs(subtitle = '25 - 30 year old US residents; 2009 - 2012')
 
 ```
 
@@ -120,6 +135,32 @@ bp.df = NHANES %>%
 ```{r Q1c}
 #' Required variables: bp.marital (data.frame); pval (numeric); ci95 (numeric)
 #' Required plots: NA
+
+bp.marital = NHANES %>%
+  filter(Gender == "male") %>%
+  filter(Age >= 30, Age <= 40) %>%
+  filter(MaritalStatus %in% c("Married", "NeverMarried")) %>%
+  select(MaritalStatus, BPSysAve) %>%
+  filter(!is.na(BPSysAve))
+
+dim(bp.marital)
+
+# Method 1
+bp.married = bp.marital$BPSysAve[bp.marital$MaritalStatus == 'Married']
+bp.nevermarried = bp.marital$BPSysAve[bp.marital$MaritalStatus == 'NeverMarried']
+
+tm1 = t.test(bp.married, bp.nevermarried, conf.level = 0.95)
+tm1
+
+# Method 2
+tm2 = t.test(BPSysAve ~ MaritalStatus, data = bp.marital, conf.level = 0.95)
+tm2
+
+pval = tm1$p.value
+ci95 = tm1$conf.int
+
+pval
+ci95
 
 
 ```
@@ -133,6 +174,8 @@ bp.df = NHANES %>%
 ```{r Q2a}
 #' Required variables: df.ab1 (data.frame)
 #' Required plots: boxplots
+
+
 
 ```
 
