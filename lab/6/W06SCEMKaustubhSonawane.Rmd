@@ -175,8 +175,10 @@ ci95
 #' Required variables: df.ab1 (data.frame)
 #' Required plots: boxplots
 
+df.ab1 = read.csv("session_ab_test.csv")
 
-
+ggplot(df.ab1) +
+  geom_boxplot(aes(x = age_band, y = session_duration_min, fill = group), alpha = 0.7)
 ```
 
 ::: {.message style="color: blue;"}
@@ -187,6 +189,11 @@ ci95
 #' Required variables: df.ab1.log (data.frame)
 #' Required plots: boxplots or violin plots
 
+df.ab1.log = mutate(df.ab1, duration.log = log10(df.ab1$session_duration_min))
+
+ggplot(df.ab1.log) +
+  # geom_violin(aes(x = age_band, y = duration.log, fill = group), alpha = 0.7)
+  geom_boxplot(aes(x = age_band, y = duration.log, fill = group), alpha = 0.7)
 ```
 
 ::: {.message style="color: blue;"}
@@ -198,7 +205,15 @@ desired statistical properties.
 #' Required variables: required_n_per_group (numeric)
 #' Required plots: NA
 
+required_n_per_group = power.t.test(
+  delta = 0.08,
+  sd = 0.3,
+  power = 0.8,
+  sig.level = 0.05/5,
+  alternative = "one.sided"
+)$n
 
+required_n_per_group
 ```
 
 ::: {.message style="color: blue;"}
@@ -209,8 +224,7 @@ sizes.
 ```{r Q2d}
 #' Required variables: NA
 #' Required plots: NA
-
-
+table(df.ab1$group, df.ab1$age_band)
 ```
 
 ::: {.message style="color: blue;"}
@@ -221,7 +235,8 @@ sizes.
 #' Required variables: df.ab1.log2 (data.frame)
 #' Required plots: NA
 
-
+df.ab1.log2 = mutate(df.ab1.log, new_age = ifelse(df.ab1.log$age_band < 35, "younger", "older"))
+table(df.ab1.log2$new_age, df.ab1.log2$group)
 ```
 
 ::: {.message style="color: blue;"}
@@ -232,8 +247,31 @@ p-values.
 ```{r Q2f}
 #' Required variables: pvals.raw (numeric); pvals.holm (numeric)
 #' Required plots: NA
+younger = filter(df.ab1.log2, new_age == 'younger')
+older = filter(df.ab1.log2, new_age == 'older')
 
 
+ttest.younger = t.test(
+  duration.log ~ group,
+  data = younger,
+  alternative = "greater",
+  conf.level = 0.95
+)
+
+ttest.older = t.test(
+  duration.log ~ group,
+  data = older,
+  alternative = "greater",
+  conf.level = 0.95
+)
+
+# ttest.younger$p.value
+# ttest.older$p.value
+
+pvals.raw = c(ttest.younger$p.value, ttest.older$p.value)
+pvals.holm = p.adjust(pvals.raw, method = "holm")
+
+pvals.holm
 ```
 
 ## Q3: paired t test
