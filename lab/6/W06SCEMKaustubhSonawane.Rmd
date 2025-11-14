@@ -284,6 +284,16 @@ pvals.holm
 #' Required variables: df.paired.t (data.frame)
 #' Required plots: NA
 
+df.paired.t = readRDS("UPMSP_SA_full_results.rds")
+
+df.paired.t = df.paired.t %>%
+  group_by(Algorithm, Instance) %>%
+  summarise(MeanMS = mean(Makespan)) %>%
+  filter(Algorithm == 'Full' | Algorithm == 'no-2SH')
+
+
+# dim(df.paired.t)
+df.paired.t
 
 ```
 
@@ -295,8 +305,8 @@ pvals.holm
 Defining $d_j = y_{(no2sh), j} - y_{(full), j}$, the hypotheses can be
 written as: $$
 \begin{cases}
-?\\
-?
+H_0: \mu = 0\\
+H_a: \mu_d > 0
 \end{cases}
 $$
 :::
@@ -310,6 +320,42 @@ $$
 #' Required plots: NA
 
 
+xpair <- df.paired.t$MeanMS[df.paired.t$Algorithm == "no-2SH"] -
+  df.paired.t$MeanMS[df.paired.t$Algorithm == "Full"]
+
+(mytest <- t.test(xpair, alternative = "greater"))
+
+pval.paired = mytest$p.value
+diff.paired = mytest$estimate
+ci.paired = mytest$conf.int
+
+pval.paired
+diff.paired
+ci.paired
+
+
+# df.full = df.paired.t$MeanMS[df.paired.t$Algorithm == "Full"]
+# df.no2SH = df.paired.t$MeanMS[df.paired.t$Algorithm == "no-2SH"]
+# 
+# ttest.paired = t.test(
+#   # df.full,
+#   df.paired.t$MeanMS[df.paired.t$Algorithm == "Full"],
+#   # df.no2SH,
+#   df.paired.t$MeanMS[df.paired.t$Algorithm == "no-2SH"],
+#   # conf.level = 0.95,
+#   alternative = 'greater',
+#   paired = TRUE
+#   )
+
+# ttest.paired
+# 
+# pval.paired = ttest.paired$p.value
+# diff.paired = ttest.paired$estimate
+# ci.paired = ttest.paired$conf.int
+# 
+# pval.paired
+# diff.paired
+# ci.paired
 ```
 
 ::: {.message style="color: blue;"}
@@ -319,6 +365,12 @@ $$
 ```{r Q3d}
 #' Required variables: NA
 #' Required plots: NA
+
+t.test(
+  df.paired.t$MeanMS[df.paired.t$Algorithm == "Full"],
+  df.paired.t$MeanMS[df.paired.t$Algorithm == "no-2SH"],
+  alternative = "greater"
+  )
 
 ```
 
@@ -332,6 +384,19 @@ $$
 #' Required variables: df.strat (data.frame); df.strat.stats (data.frame)
 #' Required plots: NA
 
+df.strat = read.csv("business_strategies.csv")
+
+dim(df.strat)
+
+df.strat.stats = df.strat %>%
+  group_by(strategy) %>%
+  summarise(
+    meanRev = mean(Revenue30Days),
+    sdRev = sd(Revenue30Days),
+    N = n()
+  )
+
+df.strat.stats
 
 ```
 
@@ -343,6 +408,14 @@ $$
 #' Required variables: NA
 #' Required plots: faceted qqplots
 
+ggplot(df.strat) +
+  geom_qq(aes(sample = Revenue30Days)) +
+  geom_qq_line(aes(sample = Revenue30Days)) +
+  facet_wrap(~strategy) +
+  theme_light() +
+  xlab("Normal Quantiles") +
+  ylab("Revenue")
+  theme(strip.text = element_text(colour = "black", face = "bold"))
 
 ```
 
@@ -354,6 +427,8 @@ $$
 #' Required variables: NA
 #' Required plots: NA
 
+# ?fligner.test()
+fligner.test(Revenue30Days ~ strategy, data = df.strat)
 
 ```
 
@@ -365,6 +440,8 @@ $$
 #' Required variables: aov.strat (aov)
 #' Required plots: NA
 
+aov.strat <- aov(Revenue30Days ~ strategy, data = df.strat)
+summary(aov.strat)
 
 ```
 
@@ -377,8 +454,15 @@ contrast "Tukey".
 ```{r Q4e}
 #' Required variables: df.strat (data.frame); aov.strat (aov); strat.tukey (glht)
 #' Required plots: NA
+library(multcomp)
 
+df.strat$strategy = as.factor(df.strat$strategy)
 
+aov.strat = aov(data = df.strat, Revenue30Days ~ strategy)
+summary(aov.strat)
+
+strat.tukey = glht(aov.strat, linfct = mcp(strategy = "Tukey"))
+summary(strat.tukey)
 ```
 
 ## Q5: Blocked ANOVA
@@ -391,6 +475,17 @@ contrast "Tukey".
 #' Required variables: df.cbd (data.frame)
 #' Required plots: NA
 
+df.cbd = readRDS("UPMSP_SA_full_results.rds")
+
+df.cbd = df.cbd %>%
+  group_by(Algorithm, Instance) %>%
+  summarise(
+    MeanMS = mean(Makespan)
+  )
+
+df.cbd$Algorithm = as.factor(df.cbd$Algorithm)
+df.cbd$Instance = as.factor(df.cbd$Instance)
+df.cbd
 
 ```
 
@@ -402,7 +497,10 @@ contrast "Tukey".
 #' Required variables: NA
 #' Required plots: NA
 
+blocked.aov = aov(data = df.cbd, MeanMS ~ Algorithm - Instance)
 
+summary(blocked.aov)
+blocked.aov
 ```
 
 ::: {.message style="color: blue;"}
@@ -414,6 +512,9 @@ different from the reference one.
 #' Required variables: cbd.mht
 #' Required plots: NA
 
+
+cbd.mht = glht(aov.strat, linfct = mcp(strategy = "Dunnett"))
+summary(cbd.mht)
 ```
 
 ::: {.message style="color: blue;"}

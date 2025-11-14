@@ -277,7 +277,7 @@ xpair <- df.paired.t$MeanMS[df.paired.t$Algorithm == "no-2SH"] -
 (mytest <- t.test(xpair, alternative = "greater"))
 
 # Alternatively, you could run:
-t.test(df.paired.t$MeanMS[df.paired.t$Algorithm == "no-2SH"],
+mytest2 = t.test(df.paired.t$MeanMS[df.paired.t$Algorithm == "no-2SH"],
        df.paired.t$MeanMS[df.paired.t$Algorithm == "Full"], 
        alternative = "greater", paired = TRUE)
 
@@ -285,6 +285,15 @@ pval.paired <- mytest$p.value
 diff.paired <- mytest$estimate
 ci.paired <- mytest$conf.int
 
+mytest2
+
+pval2.paired = mytest2$p.value
+diff2.paired = mytest2$estimate
+ci2.paired = mytest2$conf.int
+
+pval2.paired
+diff2.paired
+ci2.paired
 ```
 
 :::{#prompt .message style="color: blue;"}
@@ -294,6 +303,8 @@ ci.paired <- mytest$conf.int
 ```{r Q3d}
 #' Required variables: NA
 #' Required plots: 
+
+# df.paired.t
 
 t.test(df.paired.t$MeanMS[df.paired.t$Algorithm == "no-2SH"],
        df.paired.t$MeanMS[df.paired.t$Algorithm == "Full"], 
