@@ -328,9 +328,11 @@ summary(df.strat)
 
 df.strat.stats <- df.strat %>%
   group_by(strategy) %>%
-  summarise(meanRev = mean(Revenue30Days),
-            sdRev   = sd(Revenue30Days),
-            N       = n())
+  summarise(
+    meanRev = mean(Revenue30Days),
+    sdRev = sd(Revenue30Days),
+    N = n()
+    )
 
 df.strat.stats
 ```

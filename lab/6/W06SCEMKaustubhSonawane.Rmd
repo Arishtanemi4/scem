@@ -512,7 +512,6 @@ different from the reference one.
 #' Required variables: cbd.mht
 #' Required plots: NA
 
-
 cbd.mht = glht(aov.strat, linfct = mcp(strategy = "Dunnett"))
 summary(cbd.mht)
 ```
