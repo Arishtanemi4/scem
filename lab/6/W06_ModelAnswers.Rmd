@@ -418,6 +418,7 @@ df.cbd <- readRDS("./UPMSP_SA_full_results.rds") %>%
 **b.** Perform a blocked ANOVA test
 :::
 
+
 ```{r Q5b}
 #' Required variables: NA
 #' Required plots: 
